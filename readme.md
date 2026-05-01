@@ -1,4 +1,4 @@
-![](UTA-DataScience-Logo.png)
+![](figures/UTA-DataScience-Logo.png)
 
 # Santander Customer Satisfaction Prediction
 
@@ -18,7 +18,7 @@ This repository contains a machine learning pipeline developed to predict early 
   * Output: Binary target column (`TARGET`), where `1` indicates an unsatisfied customer and `0` indicates a satisfied customer.
 * **Size:** * Training Data: ~76,020 instances with ~370 features.
   * Testing Data: ~75,818 instances.
-* **Instances (Train/Validation Split):** * An 80/20 train/validation split was utilized. Crucially, a `stratify` parameter was applied to ensure the validation set maintained the exact 96:4 imbalance ratio present in the training data.
+* **Instances (Train/Validation Split):** An 80/20 train/validation split was utilized. Crucially, a `stratify` parameter was applied to ensure the validation set maintained the exact 96:4 imbalance ratio present in the training data.
 
 #### Preprocessing / Clean up
 
@@ -28,16 +28,21 @@ This repository contains a machine learning pipeline developed to predict early 
 
 #### Data Visualization
 
-* Extracted feature importances from the trained Random Forest model. Visualizations confirmed that specific features, notably `var15` (widely hypothesized to represent customer Age), carried the highest relative importance when determining customer satisfaction.
-* Generated a masked correlation heatmap of the top 10 most important features to check for multicollinearity while avoiding visual noise from the 370+ other variables.
+* **Target Imbalance Chart:** A visual breakdown of the raw dataset demonstrating the extreme 96:4 ratio between satisfied and unsatisfied customers, justifying the departure from standard Accuracy as an evaluation metric.
+  
+  ![Customer Target Imbalance](figures/imbalance_chart.png)
+
+* **Targeted Correlation Heatmap:** A masked triangular heatmap isolating the top 10 most important features. This checked for multicollinearity while avoiding the visual noise of plotting all 370+ variables.
+  
+  ![Top 10 Feature Correlation Heatmap](figures/correlation_heatmap.png)
 
 ### Problem Formulation
 
 * **Input / Output:** Input is a vector of preprocessed numerical features for a single customer. Output is a continuous probability from `0.0` to `1.0` representing the likelihood of dissatisfaction.
-* **Model:** * **Random Forest Classifier:** Selected for its robust handling of non-linear tabular data and its resistance to single-tree overfitting through ensemble voting. 
+* **Model:** **Random Forest Classifier** selected for its robust handling of non-linear tabular data and its resistance to single-tree overfitting through ensemble voting. 
 * **Hyperparameters:**
-  * `n_estimators=100`: Increased tree count for a more stable, averaged prediction.
-  * `max_depth=10`: Pruned the trees to prevent them from memorizing the training data.
+  * `n_estimators=500`: Increased tree count for a more stable, averaged prediction.
+  * `max_depth=15`: Pruned the trees to prevent them from memorizing the training data.
   * `min_samples_split=10`: Forced broader generalizations at the leaf nodes.
   * `class_weight='balanced'`: Automatically adjusted weights inversely proportional to class frequencies to combat the 96% majority class.
 
@@ -49,6 +54,15 @@ This repository contains a machine learning pipeline developed to predict early 
 ### Performance Comparison
 
 * **Key Performance Metric:** AUC-ROC (Area Under the Receiver Operating Characteristic Curve).
+* **Visual Diagnostics:**
+  * **ROC Curve:** Plotted the True Positive Rate vs. False Positive Rate across probability thresholds, visually mapping the model's 0.8216 Validation AUC against a 50/50 random-guess baseline.
+    
+    ![ROC Curve](figures/roc_curve.png)
+
+  * **Confusion Matrix:** Generated a threshold-adjusted heatmap to break down the exact distribution of True Positives, True Negatives, False Positives, and False Negatives, identifying the model's specific classification behaviors on the validation set.
+    
+    ![Confusion Matrix](figures/confusion_matrix.png)
+
 * **Results:**
   * Training Split AUC: ~0.90+
   * Stratified Validation AUC: 0.8216
@@ -70,6 +84,7 @@ This repository contains a machine learning pipeline developed to predict early 
 * `santander_rf_model.ipynb`: The primary Jupyter Notebook containing the end-to-end pipeline. Includes EDA, data cleaning, model training, validation scoring, and final CSV generation.
 * `submission.csv`: The final output file containing the test IDs and predicted probabilities, formatted for Kaggle scoring.
 * `README.md`: Project documentation and methodology summary.
+* `figures/`: Directory containing exported visualizations utilized in this report.
 
 ### Software Setup
 * Standard Data Science Python stack required:
