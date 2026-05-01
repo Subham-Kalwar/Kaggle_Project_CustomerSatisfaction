@@ -41,8 +41,8 @@ This repository contains a machine learning pipeline developed to predict early 
 * **Input / Output:** Input is a vector of preprocessed numerical features for a single customer. Output is a continuous probability from `0.0` to `1.0` representing the likelihood of dissatisfaction.
 * **Model:** **Random Forest Classifier** selected for its robust handling of non-linear tabular data and its resistance to single-tree overfitting through ensemble voting. 
 * **Hyperparameters:**
-  * `n_estimators=500`: Increased tree count for a more stable, averaged prediction.
-  * `max_depth=15`: Pruned the trees to prevent them from memorizing the training data.
+  * `n_estimators=100`: Increased tree count for a more stable, averaged prediction.
+  * `max_depth=10`: Pruned the trees to prevent them from memorizing the training data.
   * `min_samples_split=10`: Forced broader generalizations at the leaf nodes.
   * `class_weight='balanced'`: Automatically adjusted weights inversely proportional to class frequencies to combat the 96% majority class.
 
