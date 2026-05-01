@@ -30,8 +30,6 @@ This repository contains a machine learning pipeline developed to predict early 
 
 * **Target Imbalance Chart:** A visual breakdown of the raw dataset demonstrating the extreme 96:4 ratio between satisfied and unsatisfied customers, justifying the departure from standard Accuracy as an evaluation metric.
   
-  ![Customer Target Imbalance](figures/imbalance_chart.png)
-
 * **Targeted Correlation Heatmap:** A masked triangular heatmap isolating the top 10 most important features. This checked for multicollinearity while avoiding the visual noise of plotting all 370+ variables.
   
   ![Top 10 Feature Correlation Heatmap](figures/correlation_heatmap.png)
@@ -58,10 +56,6 @@ This repository contains a machine learning pipeline developed to predict early 
   * **ROC Curve:** Plotted the True Positive Rate vs. False Positive Rate across probability thresholds, visually mapping the model's 0.8216 Validation AUC against a 50/50 random-guess baseline.
     
     ![ROC Curve](figures/roc_curve.png)
-
-  * **Confusion Matrix:** Generated a threshold-adjusted heatmap to break down the exact distribution of True Positives, True Negatives, False Positives, and False Negatives, identifying the model's specific classification behaviors on the validation set.
-    
-    ![Confusion Matrix](figures/confusion_matrix.png)
 
 * **Results:**
   * Training Split AUC: ~0.90+
