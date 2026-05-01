@@ -4,7 +4,7 @@
 
 **By Subham Kalwar**
 
-* **One Sentence Summary:** An applied machine learning pipeline predicting customer dissatisfaction on a highly imbalanced dataset using a tuned, class-weighted Random Forest architecture. 
+* **Summary:** An applied machine learning pipeline predicting customer dissatisfaction on a highly imbalanced dataset using a tuned, class-weighted Random Forest architecture. 
 
 ## Overview
 
