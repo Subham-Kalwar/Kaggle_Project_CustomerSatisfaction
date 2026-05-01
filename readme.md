@@ -8,9 +8,7 @@
 
 ## Overview
 
-* **Definition of the task:** The objective of this Kaggle challenge is to identify dissatisfied customers early in their relationship with Santander Bank. The dataset consists of over 370 anonymized tabular features. The evaluation metric is the Area Under the Receiver Operating Characteristic Curve (AUC-ROC), which is necessary due to the extreme class imbalance in the target variable.
-* **My approach:** The problem was formulated as a binary classification task. Exploratory Data Analysis revealed a severe 96:4 split between satisfied and unsatisfied customers. To address this, I focused on data pruning (removing zero-variance noise) and utilized a Random Forest Classifier. The model was specifically tuned with balanced class weights to penalize the misclassification of the minority class. 
-* **Summary of the performance achieved:** The final tuned Random Forest model achieved a local Validation AUC of 0.8216. When evaluated against the unseen test data on Kaggle, it secured a Public Leaderboard AUC score of 0.79119, demonstrating a strong ability to generalize patterns without severe overfitting.
+This repository contains a machine learning pipeline developed to predict early customer dissatisfaction for the Santander Bank Kaggle challenge. The primary obstacle in this dataset is an extreme target imbalance: out of 75,000+ training records, only 4% represent dissatisfied customers. Because a naive model could achieve 96% accuracy simply by guessing "satisfied" every time, the problem was formulated as a binary classification task evaluated strictly on the AUC-ROC metric. My approach focused on variance filtering to remove uninformative features, followed by the deployment of a Random Forest Classifier. To counteract the 96:4 imbalance and prevent the trees from overfitting, I implemented algorithmic class weighting (`class_weight='balanced'`) alongside strict depth pruning. The final tuned model successfully isolated the minority class, achieving a local Validation AUC of 0.8216 and a Kaggle Public Leaderboard score of 0.79119.
 
 ## Summary of Work Done
 
@@ -31,14 +29,15 @@
 #### Data Visualization
 
 * Extracted feature importances from the trained Random Forest model. Visualizations confirmed that specific features, notably `var15` (widely hypothesized to represent customer Age), carried the highest relative importance when determining customer satisfaction.
+* Generated a masked correlation heatmap of the top 10 most important features to check for multicollinearity while avoiding visual noise from the 370+ other variables.
 
 ### Problem Formulation
 
 * **Input / Output:** Input is a vector of preprocessed numerical features for a single customer. Output is a continuous probability from `0.0` to `1.0` representing the likelihood of dissatisfaction.
 * **Model:** * **Random Forest Classifier:** Selected for its robust handling of non-linear tabular data and its resistance to single-tree overfitting through ensemble voting. 
 * **Hyperparameters:**
-  * `n_estimators=500`: Increased tree count for a more stable, averaged prediction.
-  * `max_depth=15`: Pruned the trees to prevent them from memorizing the training data.
+  * `n_estimators=100`: Increased tree count for a more stable, averaged prediction.
+  * `max_depth=10`: Pruned the trees to prevent them from memorizing the training data.
   * `min_samples_split=10`: Forced broader generalizations at the leaf nodes.
   * `class_weight='balanced'`: Automatically adjusted weights inversely proportional to class frequencies to combat the 96% majority class.
 
@@ -84,4 +83,4 @@
 
 ### Training and Evaluation
 * Clone the repository and ensure the Kaggle data files are located in the same directory (or update the file paths in the notebook).
-* Run the `santander_rf_model.ipynb` notebook sequentially from top to bottom to clean the data, train the ensemble, evaluate the validation split, and generate a new `submission.csv`.# Kaggle_Project_CustomerSatisfaction
+* Run the `santander_rf_model.ipynb` notebook sequentially from top to bottom to clean the data, train the ensemble, evaluate the validation split, and generate a new `submission.csv`.
